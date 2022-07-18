@@ -29,16 +29,22 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Autowired
     private RedisTemplate redisTemplate;
     @Override
+//    public List<Menu> getMenusByAdminId() {
+//        Integer adminId = ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+//        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+//        //查看redis 缓存中有没有数据
+//        List<Menu> menus = (List<Menu>) valueOperations.get("menu_" + adminId);
+//        if (CollectionUtils.isEmpty(menus)) {
+//            //如果没有数据,数据库查询,并设置到缓存
+//            menus = menuMapper.getMenusByAdminId(adminId);
+//            valueOperations.set("menu_" + adminId, menus);
+//        }
+//        return menus;
+//    }
+    //不使用redis
     public List<Menu> getMenusByAdminId() {
-        Integer adminId = ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
-        //查看redis 缓存中有没有数据
-        List<Menu> menus = (List<Menu>) valueOperations.get("menu_" + adminId);
-        if (CollectionUtils.isEmpty(menus)) {
-            //如果没有数据,数据库查询,并设置到缓存
-            menus = menuMapper.getMenusByAdminId(adminId);
-            valueOperations.set("menu_" + adminId, menus);
-        }
+        Integer adminId = ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();//查看redis 缓存中有没有数据
+        List<Menu> menus = menuMapper.getMenusByAdminId(adminId);
         return menus;
     }
 }
