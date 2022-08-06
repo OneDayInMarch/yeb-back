@@ -4,26 +4,27 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.server.pojo.Department">
+        <!-- 字段映射：column 表字段，property 实体类属性名-->
         <id column="id" property="id" />
         <result column="name" property="name" />
-        <result column="parentId" property="parentId" />
-        <result column="depPath" property="depPath" />
+        <result column="parent_id" property="parentId" />
+        <result column="dep_path" property="depPath" />
         <result column="enabled" property="enabled" />
-        <result column="isParent" property="isParent" />
+        <result column="is_parent" property="isParent" />
     </resultMap>
 
     <resultMap id="DepartmentWithChildren" type="com.example.server.pojo.Department" extends="BaseResultMap">
         <collection property="children" ofType="com.example.server.pojo.Department"
-                    select = "com.example.server.mapper.DepartmentMapper.getAllDepartmentsByParentId" column="id">
+                    select = "com.example.server.mapper.DepartmentMapper.getAllDepartments" column="id">
         </collection>
     </resultMap>
-    
-    
+
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, parentId, depPath, enabled, isParent
+        id, name, parent_id, dep_path, enabled, is_parent
     </sql>
-    
+
     <!--添加部门-->
     <select id="addDep" statementType="CALLABLE">
         call addDep(#{name,mode=IN,jdbcType=VARCHAR},#{parentId,mode=IN,jdbcType=INTEGER},#{enabled,mode=IN,jdbcType=BOOLEAN},#{result,mode=OUT,jdbcType=INTEGER},#{id,mode=OUT,jdbcType=INTEGER})
@@ -36,11 +37,11 @@
     </select>
 
     <!--查询所有部门-->
-    <select id="getAllDepartmentsByParentId" resultMap="DepartmentWithChildren">
-        select 
+    <select id="getAllDepartments" resultMap="DepartmentWithChildren">
+        select
         <include refid="Base_Column_List" />
         from t_department
-        where parentId = #{parentId}
+        where parent_id = #{parentId}
     </select>
 
 </mapper>

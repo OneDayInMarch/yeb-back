@@ -123,22 +123,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return adminMapper.getAllAdmins(id,keywords);
     }
 
-    /**
-     * 更新操作员角色
-     * @param adminId
-     * @param rids
-     * @return
-     */
-    @Override
-    @Transactional
-    public RespBean updateAdminRole(Integer adminId, Integer[] rids) {
-        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId",adminId));
-        Integer result = adminRoleMapper.addRole(adminId, rids);
-        if (rids.length == result){
-            return RespBean.success("更新成功");
-        }
-        return RespBean.error("更新失败");
-    }
 
     /**
      * 更新用户密码
@@ -182,4 +166,24 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
         return RespBean.error("更新失败");
     }
+    /**
+     * 更新操作员角色
+     *
+     * @param adminId
+     * @param rids
+     * @return
+     */
+    @Override
+    @Transactional // 开启事务
+    public RespBean updateAdminRole(Integer adminId, Integer[] rids) {
+        // 先删除全部，后调用方法重新全部添加
+        adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId));
+        Integer result = adminRoleMapper.updateAdminRole(adminId, rids);
+        if (rids.length == result) {
+            return RespBean.success("更新成功！");
+        }
+        return RespBean.error("更新失败！");
+
+    }
+
 }

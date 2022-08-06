@@ -47,4 +47,23 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         List<Menu> menus = menuMapper.getMenusByAdminId(adminId);
         return menus;
     }
+
+    /**
+     * 根据角色获取菜单列表
+     *
+     * @return
+     */
+    @Override
+    public List<Menu> getMenusWithRole() {
+        return baseMapper.getMenusWithRole();
+    }
+
+    /**
+     * 查询所有菜单
+     * @return
+     */
+    @Override
+    public List<Menu> getAllMenus() {
+        return baseMapper.getAllMenus();
+    }
 }

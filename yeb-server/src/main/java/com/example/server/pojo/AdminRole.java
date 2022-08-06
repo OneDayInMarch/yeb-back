@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_admin_role")
-@ApiModel(value="AdminRole对象", description="")
+@ApiModel(value="AdminRole对象", description="管理员角色中间表")
 public class AdminRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,8 +31,7 @@ public class AdminRole implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "用户id")
-    @TableField("adminId")
-    private Integer adminid;
+    private Integer adminId;
 
     @ApiModelProperty(value = "权限id")
     private Integer rid;

@@ -51,7 +51,7 @@ public class Department implements Serializable {
     private Boolean enabled;
 
     @ApiModelProperty(value = "是否上级")
-    private Integer isParent;
+    private Boolean isParent;
 
     @ApiModelProperty(value = "子部门列表")
     @TableField(exist = false)

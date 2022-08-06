@@ -4,37 +4,37 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.example.server.pojo.Employee">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="gender" property="gender" />
-        <result column="birthday" property="birthday" />
-        <result column="idCard" property="idCard" />
-        <result column="wedlock" property="wedlock" />
-        <result column="nationId" property="nationId" />
-        <result column="nativePlace" property="nativePlace" />
-        <result column="politicId" property="politicId" />
-        <result column="email" property="email" />
-        <result column="phone" property="phone" />
-        <result column="address" property="address" />
-        <result column="departmentId" property="departmentId" />
-        <result column="jobLevelId" property="jobLevelId" />
-        <result column="posId" property="posId" />
-        <result column="engageForm" property="engageForm" />
-        <result column="tiptopDegree" property="tiptopDegree" />
-        <result column="specialty" property="specialty" />
-        <result column="school" property="school" />
-        <result column="beginDate" property="beginDate" />
-        <result column="workState" property="workState" />
-        <result column="workID" property="workID" />
-        <result column="contractTerm" property="contractTerm" />
-        <result column="conversionTime" property="conversionTime" />
-        <result column="notWorkDate" property="notWorkDate" />
-        <result column="beginContract" property="beginContract" />
-        <result column="endContract" property="endContract" />
-        <result column="workAge" property="workAge" />
-        <result column="salaryId" property="salaryId" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="id_card" property="idCard"/>
+        <result column="wedlock" property="wedlock"/>
+        <result column="nation_id" property="nationId"/>
+        <result column="native_place" property="nativePlace"/>
+        <result column="politic_id" property="politicId"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="department_id" property="departmentId"/>
+        <result column="job_level_id" property="jobLevelId"/>
+        <result column="pos_id" property="posId"/>
+        <result column="engage_form" property="engageForm"/>
+        <result column="tiptop_degree" property="tiptopDegree"/>
+        <result column="specialty" property="specialty"/>
+        <result column="school" property="school"/>
+        <result column="begin_date" property="beginDate"/>
+        <result column="work_state" property="workState"/>
+        <result column="work_id" property="workId"/>
+        <result column="contract_term" property="contractTerm"/>
+        <result column="conversion_time" property="conversionTime"/>
+        <result column="notWork_date" property="notworkDate"/>
+        <result column="begin_contract" property="beginContract"/>
+        <result column="end_contract" property="endContract"/>
+        <result column="work_age" property="workAge"/>
+        <result column="salary_id" property="salaryId"/>
     </resultMap>
-    
+
     <resultMap id="EmployeeInfo" type="com.example.server.pojo.Employee" extends="BaseResultMap">
         <association property="nation" javaType="com.example.server.pojo.Nation">
             <id column="nid" property="id" />
@@ -83,7 +83,7 @@
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate, workState, workID, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge, salaryId
+        id, name, gender, birthday, idCard, wedlock, nationId, nativePlace, politicId, email, phone, address, departmentId, jobLevelId, posId, engageForm, tiptopDegree, specialty, school, beginDate, workState, workId, contractTerm, conversionTime, notWorkDate, beginContract, endContract, workAge, salaryId
     </sql>
 
     <!--获取所有员工（分页）-->
@@ -107,36 +107,38 @@
              t_department d,
              t_joblevel j,
              t_position pos
-        where
-            e.nationId = n.id
-            and e.politicId = p.id
-            and e.jobLevelId = j.id
-            and e.departmentId = d.id
-            and e.posId = pos.id
+        WHERE e.nation_id = n.id
+        AND e.politic_id= p.id
+        AND e.department_id=d.id
+        AND e.job_level_id=j.id
+        AND e.pos_id=pos.id
             <if test="employee.name != null and '' != employee.name ">
                 AND e.name like concat('%',#{employee.name},'%')
             </if>
-            <if test="employee.politicId != null">
-                AND e.politicId = #{employee.politicId}
-            </if>
-            <if test="employee.nationId != null">
-                AND e.nationId = #{employee.nationId}
-            </if>
-            <if test="employee.jobLevelId != null">
-                AND e.jobLevelId = #{employee.jobLevelId}
-            </if>
-            <if test="employee.posId != null" >
-                AND e.posId = #{employee.posId}
-            </if>
-            <if test="employee.departmentId != null">
-                AND e.departmentId = #{employee.departmentId}
-            </if>
-            <if test="null != employee.engageForm and '' != employee.engageForm">
-                AND e.engageForm = #{employee.engageForm}
-            </if>
-            <if test="null != beginDateScope and 2 == beginDateScope.length">
-                AND e.beginDate between #{beginDateScope[0]} and #{beginDateScope[1]}
-            </if>
+        <!-- employee.politicId 实体类属性 -->
+        <if test="null!=employee.politicId">
+            <!-- e.politic_id 数据库表别名和字段名； employee.politicId 实体类属性 -->
+            AND e.politic_id =#{employee.politicId}
+        </if>
+        <if test="null!=employee.nationId">
+            AND e.nation_id =#{employee.nationId}
+        </if>
+        <if test="null!=employee.jobLevelId">
+            AND e.job_level_id =#{employee.jobLevelId}
+        </if>
+        <if test="null!=employee.posId">
+            AND e.pos_id =#{employee.posId}
+        </if>
+        <if test="null!=employee.engageForm and ''!=employee.engageForm">
+            AND e.engage_form =#{employee.engageForm}
+        </if>
+        <if test="null!=employee.departmentId">
+            AND e.department_id =#{employee.departmentId}
+        </if>
+        <!-- beginDateScope 控制器中定义的日期数组参数名 -->
+        <if test="null!=beginDateScope and 2==beginDateScope.length">
+            AND e.begin_date BETWEEN #{beginDateScope[0]} AND #{beginDateScope[1]}
+        </if>
             ORDER BY e.id
     </select>
 
@@ -160,40 +162,38 @@
              t_department d,
              t_joblevel j,
              t_position pos
-        where
-            e.nationId = n.id
-            and e.politicId = p.id
-            and e.jobLevelId = j.id
-            and e.departmentId = d.id
-            and e.posId = pos.id
-            <if test="null != id">
-                and e.id = #{id}
-            </if>
-            order by e.id
+        WHERE e.nation_id = n.id
+        AND e.politic_id= p.id
+        AND e.department_id=d.id
+        AND e.job_level_id=j.id
+        AND e.pos_id=pos.id
+        <if test="null!=id">
+            AND e.id = #{id}
+        </if>
+        ORDER BY e.id
     </select>
 
-    <!--获取所有员工套账-->
+    <!--  获取所有员工账套(分页）-->
     <select id="getEmployeeWithSalary" resultMap="EmployeeWithSalary">
         SELECT
-            e.*,
-            td.`name` as dname,
-            s.id AS sid,
-            s.`name` AS sname,
-            s.basicSalary AS sbasicSalary,
-            s.trafficSalary AS strafficSalary,
-            s.lunchSalary AS slunchSalary,
-            s.bonus AS sbonus,
-            s.allSalary AS sallSalary,
-            s.pensionPer AS spensionPer,
-            s.pensionBase AS spensionBase,
-            s.medicalPer AS smedicalPer,
-            s.medicalBase AS smedicalBase,
-            s.accumulationFundPer AS saccumulationFundPer,
-            s.accumulationFundBase AS saccumulationFundBase
-        FROM
-            t_employee as e
-            LEFT JOIN t_salary as s ON e.salaryId = s.id
-            LEFT JOIN t_department as td ON e.departmentId = td.id
+        e.*,
+        d.name AS dname,
+        s.id AS sid,
+        s.name AS sname,
+        s.basic_salary AS abasicSalary,
+        s.bonus AS sbonus,
+        s.lunch_salary AS slunch_salary,
+        s.traffic_salary AS straffic_salary,
+        s.all_salary AS sallSalary,
+        s.pension_base AS spensionBase,
+        s.pension_per AS spensionPer,
+        s.medical_base AS smedicalBase,
+        s.medical_per AS smedicalPer,
+        s.accumulation_fund_base AS saccumulationFundBase,
+        s.accumulation_fund_per AS saccumulationFund_Per
+        FROM t_employee e
+        LEFT JOIN t_salary s ON e.salary_id = s.id
+        LEFT JOIN t_department d ON e.department_id = d.id
         ORDER BY e.id
     </select>
 

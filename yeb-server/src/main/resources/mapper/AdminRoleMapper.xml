@@ -3,22 +3,45 @@
 <mapper namespace="com.example.server.mapper.AdminRoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.server.pojo.AdminRole">
+<!--    <resultMap id="BaseResultMap" type="com.example.server.pojo.AdminRole">-->
+<!--        <id column="id" property="id" />-->
+<!--        <result column="admin_id" property="adminId" />-->
+<!--        <result column="rid" property="rid" />-->
+<!--    </resultMap>-->
+
+<!--    &lt;!&ndash; 通用查询结果列 &ndash;&gt;-->
+<!--    <sql id="Base_Column_List">-->
+<!--        id, adminId, rid-->
+<!--    </sql>-->
+
+<!--    <insert id="addRole">-->
+<!--        insert into t_admin_role(adminId,rid) values-->
+<!--        <foreach collection="rids" item="rid" separator=",">-->
+<!--            (#{adminId},#{rid})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+<!--    &lt;!&ndash; 更新操作员角色 &ndash;&gt;-->
+<!--    <update id="updateAdminRole">-->
+<!--        insert into t_admin_role(admin_id,rid) values-->
+<!--        <foreach collection="rids" item="rid" separator=",">-->
+<!--            (#{adminId},#{rid})-->
+<!--        </foreach>-->
+<!--    </update>-->
+<!--</mapper>-->
+
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="AdminRole">
         <id column="id" property="id" />
         <result column="adminId" property="adminId" />
         <result column="rid" property="rid" />
-    </resultMap>
+        </resultMap>
 
-    <!-- 通用查询结果列 -->
-    <sql id="Base_Column_List">
-        id, adminId, rid
-    </sql>
-    
-    <insert id="addRole">
+        <!-- 更新操作员角色 -->
+        <update id="updateAdminRole">
         insert into t_admin_role(adminId,rid) values
         <foreach collection="rids" item="rid" separator=",">
             (#{adminId},#{rid})
         </foreach>
-    </insert>
-
+        </update>
 </mapper>
