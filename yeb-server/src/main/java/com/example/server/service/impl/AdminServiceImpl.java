@@ -124,26 +124,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
 
-    /**
-     * 更新用户密码
-     * @param oldPass
-     * @param pass
-     * @param adminId
-     * @return
-     */
-    @Override
-    public RespBean updatePassword(String oldPass, String pass, Integer adminId) {
-        Admin admin = adminMapper.selectById(adminId);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        if (encoder.matches(oldPass,admin.getPassword())){
-            admin.setPassword(encoder.encode(pass));
-            int i = adminMapper.updateById(admin);
-            if (i == 1){
-                return RespBean.success("更新成功");
-            }
-        }
-        return RespBean.error("更新失败");
-    }
+
 
     /**
      * 更新用户头像
@@ -185,5 +166,27 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return RespBean.error("更新失败！");
 
     }
-
+    /**
+     * 更新用户密码
+     *
+     * @param oldPass
+     * @param pass
+     * @param adminId
+     * @return
+     */
+    @Override
+    public RespBean updateAdminPassword(String oldPass, String pass, Integer adminId) {
+        Admin admin = baseMapper.selectById(adminId);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        // 比对密码，判断旧密码是否正确
+        if (encoder.matches(oldPass, admin.getPassword())) {
+            // 设置密码，并加密
+            admin.setPassword(encoder.encode(pass));
+            int result = baseMapper.updateById(admin);
+            if (1 == result) {
+                return RespBean.success("更新成功！");
+            }
+        }
+        return RespBean.error("更新失败！");
+    }
 }
